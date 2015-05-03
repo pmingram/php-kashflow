@@ -1,5 +1,4 @@
-<?php
-namespace \PHPKashflow;
+<?php namespace PHPKashflow;
 
 class Kashflow
 {
