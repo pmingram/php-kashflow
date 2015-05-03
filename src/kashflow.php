@@ -1,4 +1,5 @@
 <?php
+namespace \PHPKashflow;
 
 class Kashflow
 {
