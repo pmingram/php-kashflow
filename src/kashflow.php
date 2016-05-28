@@ -255,6 +255,8 @@ class Kashflow
 		$xml .= '<Code>' . (string)$data['Code'] . '</Code>';
 		$xml .= '<Name>' . (string)$data['Name'] . '</Name>';
 		$xml .= '<Contact>' . (string)$data['Contact'] . '</Contact>';
+		$xml .= '<ContactFirstName>' . (string) $data['ContactFirstName'] . '</ContactFirstName>';
+		$xml .= '<ContactLastName>' . (string) $data['ContactLastName'] . '</ContactLastName>';
 		$xml .= '<Telephone>' . (string)$data['Telephone'] . '</Telephone>';
 		$xml .= '<Mobile>' . (string)$data['Mobile'] . '</Mobile>';
 		$xml .= '<Fax>' . (string)$data['Fax'] . '</Fax>';
@@ -311,6 +313,8 @@ class Kashflow
 		$xml .= '<Code>' . (string)$data['Code'] . '</Code>';
 		$xml .= '<Name>' . (string)$data['Name'] . '</Name>';
 		$xml .= '<Contact>' . (string)$data['Contact'] . '</Contact>';
+		$xml .= '<ContactFirstName>' . (string) $data['ContactFirstName'] . '</ContactFirstName>';
+		$xml .= '<ContactLastName>' . (string) $data['ContactLastName'] . '</ContactLastName>';
 		$xml .= '<Telephone>' . (string)$data['Telephone'] . '</Telephone>';
 		$xml .= '<Mobile>' . (string)$data['Mobile'] . '</Mobile>';
 		$xml .= '<Fax>' . (string)$data['Fax'] . '</Fax>';
