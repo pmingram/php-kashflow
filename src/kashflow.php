@@ -358,6 +358,38 @@ class Kashflow
 		}
 	}
 
+	public function InsertBankTransaction($data)
+	{
+		$xml = '<bp>
+                <ID>0</ID>
+                <accid>' . (isset($data['accountID']) ? $data['accountID'] : 0) . '</accid>
+                <TransactionDate>' . $data['txnDate'] . '</TransactionDate>
+                <moneyin>' . (isset($data['moneyIn']) ? $data['moneyIn'] : 0.00) . '</moneyin>
+                <moneyout>' . (isset($data['moneyOut']) ? $data['moneyOut'] : 0.00) . '</moneyout>
+                <Vatable>' . (isset($data['vatable']) ? $data['vatable'] : 0) . '</Vatable>
+                <VatRate>' . (isset($data['vatRate']) ? $data['vatRate'] : 0.00) . '</VatRate>
+                <VatAmount>' . (isset($data['vatAmount']) ? $data['vatAmount'] : 0.00) . '</VatAmount>
+                <TransactionType>' . (isset($data['transactionType']) ? $data['transactionType'] : 0) . '</TransactionType>
+                <Comment><![CDATA[' . (isset($data['comment']) ? $data['comment'] : '') . ']]></Comment>
+                </bp>';
+
+		$response = $this->SendRequest($xml, 'InsertBankTransaction');
+
+		if (isset($response->soapBody->soapFault)) {
+			$this->error_msg['ErrorMsg'] = (string)$response->soapBody->soapFault->faultstring;
+
+			return $this->error_msg;
+		} else {
+			if ($response->soapBody->InsertBankTransactionResponse->Status == 'OK') {
+				return (string)$response->soapBody->InsertBankTransactionResponse->InsertBankTransactionResult;
+			} else {
+				$this->error_msg['ErrorMsg'] = (string)$response->soapBody->InsertBankTransactionResponse->StatusDetail;
+
+				return $this->error_msg;
+			}
+		}
+	}
+
 	public function DeleteCustomer($data)
 	{
 		// Returns 0 regardless of customer deleted or not
