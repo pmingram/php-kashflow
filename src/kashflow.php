@@ -585,6 +585,101 @@ class Kashflow
 	///////////////////////////////////////////////////
 	// INVOICES
 	///////////////////////////////////////////////////
+	
+	public function InsertInvoice($data)
+	{
+		$xml = '<Inv>';
+		// $xml .= '<InvoiceDBID>int</InvoiceDBID>';
+        // $xml .= '<InvoiceNumber>int</InvoiceNumber>';
+        $xml .= '<InvoiceDate>' . $data['InvoiceDate'] . '</InvoiceDate>';
+        $xml .= '<DueDate>' . $data['DueDate'] . '</DueDate>';
+        // $xml .= '<Customer>string</Customer>';
+        $xml .= '<CustomerID>' . $data['CustomerID'] . '</CustomerID>';
+        // $xml .= '<Paid>int</Paid>';
+        // $xml .= '<CustomerReference>string</CustomerReference>';
+        // $xml .= '<EstimateCategory>string</EstimateCategory>';
+        // $xml .= '<SuppressTotal>int</SuppressTotal>';
+        // $xml .= '<ProjectID>int</ProjectID>';
+        $xml .= '<CurrencyCode>GBP</CurrencyCode>';
+        // $xml .= '<ExchangeRate>decimal</ExchangeRate>';
+        // $xml .= '<ReadableString>string</ReadableString>';
+        $xml .= '<Lines>';
+
+        // foreach ($data['Lines'] as $line) {
+
+        // }
+
+        $xml .= '</Lines>';
+        $xml .= '<NetAmount>' . $data['NetAmount'] . '</NetAmount>';
+        $xml .= '<VATAmount>' . $data['VATAmount'] . '</VATAmount>';
+        // $xml .= '<AmountPaid>decimal</AmountPaid>';
+        // $xml .= '<CustomerName>string</CustomerName>';
+        // $xml .= '<PermaLink>string</PermaLink>';
+        // $xml .= '<DeliveryAddress>';
+        // $xml .= '  <Name>string</Name>';
+        // $xml .= '  <Line1>string</Line1>';
+        // $xml .= '  <Line2>string</Line2>';
+        // $xml .= '  <Line3>string</Line3>';
+        // $xml .= '  <Line4>string</Line4>';
+        // $xml .= '  <PostCode>string</PostCode>';
+        // $xml .= '  <CountryName>string</CountryName>';
+        // $xml .= '  <CountryCode>string</CountryCode>';
+        // $xml .= '</DeliveryAddress>';
+        // $xml .= '<UseCustomDeliveryAddress>boolean</UseCustomDeliveryAddress>';
+        $xml .= '</Inv>';
+
+		$response = $this->SendRequest($xml, 'InsertInvoice');
+
+		if (isset($response->soapBody->soapFault)) {
+			$this->error_msg['ErrorMsg'] = (string)$response->soapBody->soapFault->faultstring;
+
+			return $this->error_msg;
+		} else {
+			if ($response->soapBody->InsertInvoiceResponse->Status == 'OK') {
+				return (int)$response->soapBody->InsertInvoiceResponse->InsertInvoiceResult;
+			} else {
+				$this->error_msg['ErrorMsg'] = (string)$response->soapBody->InsertInvoiceResponse->StatusDetail;
+
+				return $this->error_msg;
+			}
+		}
+	}
+
+	public function InsertInvoiceLineWithInvoiceNumber($data)
+	{
+			$xml = '<InvoiceNumber>' . $data['InvoiceID'] . '</InvoiceNumber>';
+        	$xml .= '<InvLine>';
+        	$xml .= '  <Quantity>' . $data['Quantity'] . '</Quantity>';
+        	$xml .= '  <Description>' . $data['Description'] . '</Description>';
+        	$xml .= '  <Rate>' . $data['Rate'] . '</Rate>';
+        	$xml .= '  <ChargeType>' . $data['ChargeType'] . '</ChargeType>';
+        	$xml .= '  <VatRate>' . $data['VatRate'] . '</VatRate>';
+        	$xml .= '  <VatAmount>' . $data['VatAmount'] . '</VatAmount>';
+        	$xml .= '  <ProductID>' . $data['ProductID'] . '</ProductID>';
+        	$xml .= '  <Sort>' . $data['Sort'] . '</Sort>';
+        	$xml .= '  <ProjID>' . $data['ProjID'] . '</ProjID>';
+        	$xml .= '  <LineID>' . $data['LineID'] . '</LineID>';
+        	// $xml .= '  <ValuesInCurrency></ValuesInCurrency>';
+        	$xml .= '</InvLine>';
+        	
+    	$response = $this->SendRequest($xml, 'InsertInvoiceLineWithInvoiceNumber');
+
+    	print_r($response);
+
+		// if (isset($response->soapBody->soapFault)) {
+		// 	$this->error_msg['ErrorMsg'] = (string)$response->soapBody->soapFault->faultstring;
+
+		// 	return $this->error_msg;
+		// } else {
+		// 	if ($response->soapBody->InsertInvoiceResponse->Status == 'OK') {
+		// 		return (int)$response->soapBody->InsertInvoiceResponse->InsertInvoiceResult;
+		// 	} else {
+		// 		$this->error_msg['ErrorMsg'] = (string)$response->soapBody->InsertInvoiceResponse->StatusDetail;
+
+		// 		return $this->error_msg;
+		// 	}
+		// }
+	}
 
 	public function DeleteInvoice($data)
 	{
