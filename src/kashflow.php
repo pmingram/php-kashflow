@@ -825,7 +825,30 @@ class Kashflow
                     $response->soapBody->GetInvoicesByDateRangeResponse->GetInvoicesByDateRangeResult
                 );
             } else {
-                $this->error_msg['ErrorMsg'] = (string)$response->soapBody->GetCustomerResponse->StatusDetail;
+                $this->error_msg['ErrorMsg'] = (string)$response->soapBody->GetInvoicesByDateRangeResponse->StatusDetail;
+
+                return $this->error_msg;
+            }
+        }
+    }
+
+    public function getInvoicesForCustomer($data)
+    {
+        $xml = '<CustID>' . $data['CustID'] . '</CustID>';
+
+        $response = $this->SendRequest($xml, 'GetInvoicesForCustomer');
+
+        if (isset($response->soapBody->soapFault)) {
+            $this->error_msg['ErrorMsg'] = (string)$response->soapBody->soapFault->faultstring;
+
+            return $this->error_msg;
+        } else {
+            if (is_object($response->soapBody->GetInvoicesForCustomerResponse)) {
+                return $this->object_to_array(
+                    $response->soapBody->GetInvoicesForCustomerResponse->GetInvoicesForCustomerResult
+                );
+            } else {
+                $this->error_msg['ErrorMsg'] = (string)$response->soapBody->GetInvoicesForCustomerResponse->StatusDetail;
 
                 return $this->error_msg;
             }
