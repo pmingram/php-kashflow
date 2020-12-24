@@ -79,7 +79,7 @@ class Kashflow
             $output = preg_replace('|<([/\w]+)(:)|m', '<$1', preg_replace('|(\w+)(:)(\w+=\")|m', '$1$3', $output));
             $this->response = $output;
 
-            return simplexml_load_string($output);
+            return @simplexml_load_string($output);
         }
     }
 
