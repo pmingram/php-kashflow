@@ -586,6 +586,27 @@ class Kashflow
     // INVOICES
     ///////////////////////////////////////////////////
 
+    public function getInvoiceById(string $id)
+    {
+        $xml = "<InvoiceNumber>{$id}</InvoiceNumber>";
+
+        $response = $this->SendRequest($xml, 'GetInvoice');
+
+        if (isset($response->soapBody->soapFault)) {
+            $this->error_msg['ErrorMsg'] = (string) $response->soapBody->soapFault->faultstring;
+
+            return $this->error_msg;
+        } else {
+            if ($response->soapBody->GetInvoiceResponse->Status == 'OK') {
+                return json_decode(json_encode($response->soapBody->GetInvoiceResponse->GetInvoiceResult), true);
+            } else {
+                $this->error_msg['ErrorMsg'] = (string)$response->soapBody->GetInvoiceResponse->StatusDetail;
+
+                return $this->error_msg;
+            }
+        }
+    }
+    
     public function InsertInvoice($data)
     {
         $xml = '<Inv>';
